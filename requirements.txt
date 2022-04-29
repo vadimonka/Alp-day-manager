@@ -1,0 +1,5 @@
+asgiref==3.5.0
+Django==4.0.2
+django-jazzmin==2.4.9
+MarkupSafe==2.0.1
+sqlparse==0.4.2

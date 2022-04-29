@@ -1,0 +1,348 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row row-cols-1 mb-4 bg-sidebar">
+  <div class="col-12 d-flex justify-content-center">
+    {% comment %} модальное окно, календарь {% endcomment %}
+    <div class="btn-group date-picker-date tab" role="group">
+      <div class="date-picker-1">Выберите дату➤</div>
+      <div class="date-picker-2"></div>
+    </div>
+    {% comment %} текущая дата и 3 предыдущих {% endcomment %}
+    <div class="date-after tab now-date">
+      {{ now_date }}<br>
+    </div>
+    {% for date in yesterday_date_list %}
+    <div class="date-after tab">
+      {{ date }}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="row row-cols-1 row-cols-xl-2">
+  <div class="mb-4">
+    <div class="col px-3 py-3 rounded shadow-sm bg-white panel">
+      <div class="row">
+        <div class="col-12">
+          <div class="row pb-2">
+            <div class="col">
+              Рабочий день: <span id="work_time">{{ work_time }}</span> минут<br>
+              Запланировано задач: <span id="time_general">{{ time_general }}</span> минут
+            </div>
+            <div class="col">
+              Перепланировано времени <span id="over_time">{{ over_time }}</span> минут<br>
+              Свободного времени: <span id="free_time">{{ free_time }}</span> минут
+            </div>
+          </div>
+          <div class="progress" style="height:25px;">
+            <div class="progress-bar progress-bar-striped bg-teal" role="progressbar" id="time_general_pb"
+              style="width:{{ time_general }}%">
+              Запланировано</div>
+            <div class="progress-bar" role="progressbar" id="free_time_pb"
+              style="background-color:#ccc; width:{{ free_time }}%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mb-4">
+    <div class="col px-3 py-3 rounded shadow-sm bg-white panel">
+      <div class="row">
+        <div class="col-12">
+          <div class="row pb-2">
+            <div class="col">
+              Общее кол-во задач ( <span id="quantity_task_general">{{ quantity_task_general }}</span> - 100% )<br>
+              Задач группы <span class="text-danger fw-bold">A</span> ( <span
+                id="quantity_task_a">{{ quantity_task_a }}</span> - <span id="percent_a">
+                {{ percent_a }}</span>% )
+            </div>
+            <div class="col">
+              Задач группы <span class="text-warning fw-bold">B</span> ( <span
+                id="quantity_task_b">{{ quantity_task_b }}</span> - <span id="percent_b">
+                {{ percent_b }}</span>% )<br>
+              Задач группы <span class="text-secondary fw-bold">C</span> ( <span
+                id="quantity_task_c">{{ quantity_task_c }}</span> - <span id="percent_c">
+                {{ percent_c }}</span>% )
+            </div>
+          </div>
+          <div class="progress" style="height:25px;">
+            <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" id="pb_a"
+              style="width:{{ percent_a }}%">
+              <span id="percent_pb_a">{{ percent_a }}%</span></div>
+            <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" id="pb_b"
+              style="width:{{ percent_b }}%">
+              <span id="percent_pb_b">{{ percent_b }}%</span></div>
+            <div class="progress-bar bg-secondary" role="progressbar" id="pb_c" style="width:{{ percent_c }}%">
+              <span id="percent_pb_c">{{ percent_c }}%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row row-cols-1 row-cols-xl-3">
+  <div>
+    <div class="col px-3 rounded shadow-sm py-2 mb-4 bg-white panel">
+      <div class="row text-truncate">
+        <div class="col-6 pt-2">
+          <button id="add_fields_a" onclick="add_fields('a', 'b', 'c')" data-bs-toggle="tooltip"
+            data-bs-placement="right" title="Добавить задачу A">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32px" height="32px" viewBox="0 0 24 24" stroke="teal"
+              stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="teal">
+              <path d="M17,12 L7,12 M12,17 L12,7" />
+              <circle cx="12" cy="12" r="11" />
+            </svg>
+          </button>
+          <button id="remove_button_a" data-bs-toggle="tooltip" data-bs-placement="right" title="Удалить задачу">
+            <svg xmlns="http://www.w3.org/2000/svg" data-bs-toggle="modal" data-bs-target="#delete_modal" width="32px"
+              height="32px" viewBox="0 0 24 24" stroke="#dc3545" stroke-width="1.4" stroke-linecap="square"
+              stroke-linejoin="miter" fill="none" color="#dc3545">
+              <path d="M17,12 L7,12" />
+              <circle cx="12" cy="12" r="11" />
+            </svg>
+          </button>
+          <button id="change_status_a" data-bs-toggle="tooltip" data-bs-placement="right" title="Сменить статус">
+            <svg xmlns="http://www.w3.org/2000/svg" width="34px" height="34px" viewBox="0 0 24 24" stroke="royalblue"
+              stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="royalblue">
+              <polyline points="7 13 10 16 17 9" />
+              <circle cx="12" cy="12" r="10" />
+            </svg>
+          </button>
+        </div>
+        <div class="col-4">
+          <div class="display-6 text-danger font-gothic">A</div>
+        </div>
+        <div class="col-2 d-flex flex-wrap align-content-center">
+          Мин
+        </div>
+      </div>
+      <div id="form_new_el_a" onchange="add_new_task('A')">
+        <div class="row row-select hidden" id="hidden_fields_a">
+          <div class="col-10 py-1">
+            <textarea class="form-control add_shadow_border" id="new_content_a" rows="1" placeholder="Новая задача.."
+              autofocus required></textarea>
+            <div id="error_content_a" class="badge text-danger hidden">Введены недопустимые символы <>
+            </div>
+            <div id="error_content_zero_a" class="badge text-danger hidden">Заполнены не все поля!</div>
+            <div id="error_time_min_a" class="badge text-danger hidden">Задачи меньше 4-х минут не учитываются</div>
+          </div>
+          <div class="col-2 py-1">
+            <input type="number" min="4" class="form-control add_shadow_border" id="new_time_a" value=""
+              oninput="justInteger(this)" placeholder="Время" required>
+          </div>
+        </div>
+      </div>
+      <div id="form_change_el_a">
+        {% comment %} новая задача A, которая была добавлена, появится здесь {% endcomment %}
+        {% for task in task_a reversed %}
+        {% if task.status.status == 'В работе' %}
+        <div class="row row-select" id="row_{{ task.pk }}" onchange="change_task('A', {{ task.pk }})">
+          {% elif task.status.status == 'Выполнена' %}
+          <div class="row row-select strike" id="row_{{ task.pk }}" onchange="change_task('A', {{ task.pk }})">
+            {% endif %}
+            <div class="col-10 py-1 b-bottom">
+              <textarea class="form-control remove_shadow_border" id="content_{{ task.pk }}" rows="1"
+                placeholder="Задача.." required>{{ task.content }}</textarea>
+              <div id="error_content_{{ task.pk }}" class="badge text-danger hidden">Введены недопустимые символы <>
+              </div>
+              <div id="error_content_zero_{{ task.pk }}" class="badge text-danger hidden">Заполнены не все поля!</div>
+              <div id="error_time_min_{{ task.pk }}" class="badge text-danger hidden">Задачи меньше 4-х минут не
+                учитываются</div>
+            </div>
+            <div class="col-2 py-1 b-bottom">
+              <input type="number" min="4" class="form-control remove_shadow_border" id="time_{{ task.pk }}"
+                placeholder="Время" value="{{ task.time }}" oninput="justInteger(this)" required>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="row h5 pt-4">
+          <div class="col-10 text-end">
+            Итого времени в минутах:
+          </div>
+          <div class="col-2">
+            <span id="time_a">{{ time_a }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="col px-3 py-2 rounded shadow-sm mb-4 bg-white panel">
+        <div class="row text-truncate">
+          <div class="col-6 pt-2">
+            <button id="add_fields_b" onclick="add_fields('b', 'a', 'c')" data-bs-toggle="tooltip"
+              data-bs-placement="right" title="Добавить задачу B">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32px" height="32px" viewBox="0 0 24 24" stroke="teal"
+                stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="teal">
+                <path d="M17,12 L7,12 M12,17 L12,7" />
+                <circle cx="12" cy="12" r="11" />
+              </svg>
+            </button>
+            <button id="remove_button_b" data-bs-toggle="tooltip" data-bs-placement="right" title="Удалить задачу">
+              <svg xmlns="http://www.w3.org/2000/svg" data-bs-toggle="modal" data-bs-target="#delete_modal" width="32px"
+                height="32px" viewBox="0 0 24 24" stroke="#dc3545" stroke-width="1.4" stroke-linecap="square"
+                stroke-linejoin="miter" fill="none" color="#dc3545">
+                <path d="M17,12 L7,12" />
+                <circle cx="12" cy="12" r="11" />
+              </svg>
+            </button>
+            <button id="change_status_b" data-bs-toggle="tooltip" data-bs-placement="right" title="Сменить статус">
+              <svg xmlns="http://www.w3.org/2000/svg" width="34px" height="34px" viewBox="0 0 24 24" stroke="royalblue"
+                stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="royalblue">
+                <polyline points="7 13 10 16 17 9" />
+                <circle cx="12" cy="12" r="10" />
+              </svg>
+            </button>
+          </div>
+          <div class="col-4">
+            <div class="display-6 text-warning font-gothic">B</div>
+          </div>
+          <div class="col-2 d-flex flex-wrap align-content-center">
+            Мин
+          </div>
+        </div>
+        <div id="form_new_el_b" onchange="add_new_task('B')">
+          <div class="row row-select hidden" id="hidden_fields_b">
+            <div class="col-10 py-1">
+              <textarea class="form-control add_shadow_border" id="new_content_b" rows="1" placeholder="Новая задача.."
+                autofocus required></textarea>
+              <div id="error_content_b" class="badge text-danger hidden">Введены недопустимые символы <>
+              </div>
+              <div id="error_content_zero_b" class="badge text-danger hidden">Заполнены не все поля!</div>
+              <div id="error_time_min_b" class="badge text-danger hidden">Задачи меньше 4-х минут не учитываются</div>
+            </div>
+            <div class="col-2 py-1">
+              <input type="number" min="4" class="form-control add_shadow_border" id="new_time_b" value=""
+                oninput="justInteger(this)" placeholder="Время" required>
+            </div>
+          </div>
+        </div>
+        <div id="form_change_el_b">
+          {% comment %} новая задача B, которая была добавлена, появится здесь {% endcomment %}
+          {% for task in task_b reversed %}
+          {% if task.status.status == 'В работе' %}
+          <div class="row row-select" id="row_{{ task.pk }}" onchange="change_task('B', {{ task.pk }})">
+            {% elif task.status.status == 'Выполнена' %}
+            <div class="row row-select strike" id="row_{{ task.pk }}" onchange="change_task('B', {{ task.pk }})">
+              {% endif %}
+              <div class="col-10 py-1 b-bottom">
+                <textarea class="form-control remove_shadow_border" id="content_{{ task.pk }}" rows="1"
+                  placeholder="Задача.." required>{{ task.content }}</textarea>
+                <div id="error_content_{{ task.pk }}" class="badge text-danger hidden">Введены недопустимые символы <>
+                </div>
+                <div id="error_content_zero_{{ task.pk }}" class="badge text-danger hidden">Заполнены не все поля!</div>
+                <div id="error_time_min_{{ task.pk }}" class="badge text-danger hidden">Задачи меньше 4-х минут не
+                  учитываются</div>
+              </div>
+              <div class="col-2 py-1 b-bottom">
+                <input type="number" min="4" class="form-control remove_shadow_border" id="time_{{ task.pk }}"
+                  placeholder="Время" value="{{ task.time }}" oninput="justInteger(this)" required>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          <div class="row h5 pt-4">
+            <div class="col-10 text-end">
+              Итого времени в минутах:
+            </div>
+            <div class="col-2">
+              <span id="time_b">{{ time_b }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <div class="col rounded shadow-sm px-3 py-2 mb-4 bg-white panel">
+          <div class="row text-truncate">
+            <div class="col-6 pt-2">
+              <button id="add_fields_c" onclick="add_fields('c', 'a', 'b')" data-bs-toggle="tooltip"
+                data-bs-placement="right" title="Добавить задачу C">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32px" height="32px" viewBox="0 0 24 24" stroke="teal"
+                  stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter" fill="none" color="teal">
+                  <path d="M17,12 L7,12 M12,17 L12,7" />
+                  <circle cx="12" cy="12" r="11" />
+                </svg>
+              </button>
+              <button id="remove_button_c" data-bs-toggle="tooltip" data-bs-placement="right" title="Удалить задачу">
+                <svg xmlns="http://www.w3.org/2000/svg" data-bs-toggle="modal" data-bs-target="#delete_modal"
+                  width="32px" height="32px" viewBox="0 0 24 24" stroke="#dc3545" stroke-width="1.4"
+                  stroke-linecap="square" stroke-linejoin="miter" fill="none" color="#dc3545">
+                  <path d="M17,12 L7,12" />
+                  <circle cx="12" cy="12" r="11" />
+                </svg>
+              </button>
+              <button id="change_status_c" data-bs-toggle="tooltip" data-bs-placement="right" title="Сменить статус">
+                <svg xmlns="http://www.w3.org/2000/svg" width="34px" height="34px" viewBox="0 0 24 24"
+                  stroke="royalblue" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter" fill="none"
+                  color="royalblue">
+                  <polyline points="7 13 10 16 17 9" />
+                  <circle cx="12" cy="12" r="10" />
+                </svg>
+              </button>
+            </div>
+            <div class="col-4">
+              <div class="display-6 text-secondary font-gothic">C</div>
+            </div>
+            <div class="col-2 d-flex flex-wrap align-content-center">
+              Мин
+            </div>
+          </div>
+          <div id="form_new_el_c" onchange="add_new_task('C')">
+            <div class="row row-select hidden" id="hidden_fields_c">
+              <div class="col-10 py-1">
+                <textarea class="form-control add_shadow_border" id="new_content_c" rows="1"
+                  placeholder="Новая задача.." autofocus required></textarea>
+                <div id="error_content_c" class="badge text-danger hidden">Введены недопустимые символы <>
+                </div>
+                <div id="error_content_zero_c" class="badge text-danger hidden">Заполнены не все поля!</div>
+                <div id="error_time_min_c" class="badge text-danger hidden">Задачи меньше 4-х минут не учитываются</div>
+              </div>
+              <div class="col-2 py-1">
+                <input type="number" min="4" class="form-control add_shadow_border" id="new_time_c" value=""
+                  oninput="justInteger(this)" placeholder="Время" required>
+              </div>
+            </div>
+          </div>
+          <div id="form_change_el_c">
+            {% comment %} новая задача C, которая была добавлена, появится здесь {% endcomment %}
+            {% for task in task_c reversed %}
+              {% if task.status.status == 'В работе' %}
+                <div class="row row-select" id="row_{{ task.pk }}" onchange="change_task('C', {{ task.pk }})">
+              {% elif task.status.status == 'Выполнена' %}
+                <div class="row row-select strike" id="row_{{ task.pk }}" onchange="change_task('C', {{ task.pk }})">
+              {% endif %}
+                <div class="col-10 py-1 b-bottom">
+                  <textarea class="form-control remove_shadow_border" id="content_{{ task.pk }}" rows="1"
+                    placeholder="Задача.." required>{{ task.content }}</textarea>
+                  <div id="error_content_{{ task.pk }}" class="badge text-danger hidden">Введены недопустимые символы <></div>
+                  <div id="error_content_zero_{{ task.pk }}" class="badge text-danger hidden">Заполнены не все поля!</div>
+                  <div id="error_time_min_{{ task.pk }}" class="badge text-danger hidden">Задачи меньше 4-х минут не учитываются</div>
+                </div>
+                <div class="col-2 py-1 b-bottom">
+                  <input type="number" min="4" class="form-control remove_shadow_border" id="time_{{ task.pk }}"
+                    placeholder="Время" value="{{ task.time }}" oninput="justInteger(this)" required>
+                </div>
+              </div>
+            {% endfor %}
+            </div>
+            <div class="row h5 pt-4">
+              <div class="col-10 text-end">
+                Итого времени в минутах:
+              </div>
+              <div class="col-2">
+                <span id="time_c">{{ time_c }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

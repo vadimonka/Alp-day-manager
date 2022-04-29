@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+  
+{% endif %}
+
+{% if form.errors %}
+  Пользователь с такими данными не найден, либо не зарегистрирован. Попробуйте снова.<br>
+{% endif %}
+
+{% if next %}
+  {% if user.is_authenticated %}
+    Вы не можете просматривать данную страницу. Недостаточно прав.
+  {% else %}
+    Сначала авторизуйтесь.<br>
+  {% endif %}
+{% endif %}
+<br><br>
+<div class="container-fluid d-flex justify-content-center">
+  <div class="rounded-3 shadow-sm px-4 bg-white">
+    <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <table>
+      <tr>
+        <td>
+          <br>Email:<br>
+          <input type="text" name="username" class="form-control" style="box-shadow:none; border:1px solid RoyalBlue;" placeholder="" autofocus>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          Пароль:<br>
+          <input type="password" name="password" class="form-control" style="box-shadow:none; border:1px solid RoyalBlue;" placeholder="">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <br><input type="submit" id="liveToastBtn" class="btn btn-primary" style="width:100%; background:RoyalBlue;" value="Login">
+        </td>
+      </tr>
+
+      <tr>
+        <td class="text-center">
+          <br><p><a href="{% url 'password_reset' %}" class="text-dark">Забыли пароль?</a></p>
+        </td>
+      </tr>
+    </table>
+
+    <input type="hidden" name="next" value="{{ next }}">
+    </form>
+  </div>
+</div>
+{% endblock %}
