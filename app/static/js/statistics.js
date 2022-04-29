@@ -8,7 +8,7 @@ var labels_date = [
     '21.01.2022',
     '22.01.2022',
     '23.01.2022',
-    '24.01.2022'
+    '24.01.2022',
 ]
 
 var data_1 = {
@@ -21,32 +21,21 @@ var data_1 = {
         ],
         borderColor: 'rgb(250,250,250)',
         data: [1, 2, 3],
+        hoverOffset: 5
     }]
 }
 
 var data_2 = {
     labels: labels_date,
     datasets: [{
+        label: '',
         backgroundColor: [
             'rgba(241,64,75,1)',
             'rgba(221,223,230,1)',
             'rgba(242,189,208,1)',
             'rgba(37,44,65,1)'
         ],
-        borderColor: 'rgb(250,250,250)',
-        data: [2, 3, 1, 5, 4],
-    }]
-}
-
-var data_3 = {
-    labels: labels,
-    datasets: [{
-        backgroundColor: [
-            'rgba(0, 128, 128, 1)'
-        ],
-        borderColor: 'rgba(0, 128, 128, 0.5)',
-        data: [2,3,1],
-        tension: 0.5
+        data: [2, 3, 1, 4],
     }]
 }
 
@@ -68,15 +57,6 @@ const config_2 = {
     }
 }
 
-const config_3 = {
-    type: 'line',
-    data: data_3,
-    options: {  
-        responsive: true,
-        maintainAspectRatio: false
-    }
-}
-
 if (document.getElementById('graf_1')) {
     var myChart_1 = new Chart(
         document.getElementById('graf_1'),
@@ -91,12 +71,62 @@ if (document.getElementById('graf_2')) {
     )
 }
 
-if (document.getElementById('graf_3')) {
-    var myChart_3 = new Chart(
-        document.getElementById('graf_3'),
-        config_3
-    )
-}
+
+$('.current-week').on('click', ()=>{
+    // вычисляем количество дней до понедельника
+    let q1 = moment().day() - 1
+    // вычисляем дату понедельника
+    let monday = moment().subtract(q1, 'days').format('DD-MM-YYYY')
+    // вычисляем дату сегодня
+    let nowday = moment().format('DD-MM-YYYY')
+
+    let data = {
+        'date_from': monday,
+        'date_to': nowday
+    }
+    getStatData(urlStat, data)
+})
+
+$('.last-week').on('click', ()=>{
+    // вычисляем кол-во дней до предыдущего понедельника
+    let q2 = moment().day() - 1 + 7
+    // вычисляем дату предыдущего понедельника
+    let lastMonday = moment().subtract(q2, 'days').format('DD-MM-YYYY')
+    // вычисляем дату предыдущего воскресения
+    let lastSunday = moment().subtract(q2-6, 'days').format('DD-MM-YYYY')
+
+    let data = {
+        'date_from': lastMonday,
+        'date_to': lastSunday
+    }
+    getStatData(urlStat, data)
+})
+
+$('.current-month').on('click', ()=>{
+    // дата начала месяца
+    let begin_month = moment().format("01-MM-YYYY")
+    // дата сегодня
+    let nowday = moment().format('DD-MM-YYYY')
+
+    let data = {
+        'date_from': begin_month,
+        'date_to': nowday
+    }
+    getStatData(urlStat, data)
+})
+
+$('.last-month').on('click', ()=>{
+    // дата начала предыдущего месяца
+    let begin_month = moment().subtract(1, 'months').startOf('month').format('DD-MM-YYYY')
+    // дата конца предыдущего месяца
+    let end_month = moment().subtract(1, 'months').endOf('month').format('DD-MM-YYYY')
+
+    let data = {
+        'date_from': begin_month,
+        'date_to': end_month
+    }
+    getStatData(urlStat, data)
+})
 
 
 // GET запрос на получение данных для статистики
@@ -105,7 +135,6 @@ function getStatData(url, data) {
         fetch(url+'?date_from='+data['date_from']+'&date_to='+data['date_to'])
         .then(response => {return response.json()})
         .then(getBody => {
-            console.log(getBody)
 
             count_a = getBody['count_a']
             count_b = getBody['count_b']

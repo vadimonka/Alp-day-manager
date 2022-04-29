@@ -242,6 +242,7 @@ div.strike > div.b-bottom > input,
   line-height: 45px;
   border-radius: 45px;
   margin: 10px 10px;
+  margin-top: 0;
   font-size: 18px;
   text-align: center;
   letter-spacing: 2px;

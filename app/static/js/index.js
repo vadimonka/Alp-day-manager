@@ -407,7 +407,6 @@ async function postData(url, data) {
                 idg = 0
             } else if (resBody['task_status']) {
                 // редактирование статуса
-                console.log(resBody['task_status'])
                 if (resBody['task_status'] == 'Выполнена')
                     document.getElementById(`row_${resBody['task_pk_returned']}`).classList.add("strike")
                 else

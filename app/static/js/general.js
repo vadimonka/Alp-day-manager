@@ -7,6 +7,7 @@ const urlPit = '/pit'
 const urlStat = '/statistics'
 const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
 
+
 // Динамический размер textarea
 function set_preferences() {
     var tx = document.getElementsByTagName('textarea');

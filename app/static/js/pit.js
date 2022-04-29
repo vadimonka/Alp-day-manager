@@ -32,7 +32,6 @@ $('.throw-over').on('click', () => {
                 "date": active_date
             }
             postDataPit(urlPit, data)
-            console.log(data)
         }
     } else {
         show_toast_ex('Нечего переносить')

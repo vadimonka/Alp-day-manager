@@ -7,23 +7,33 @@
     <div class="row">
       <div class="mt-4 mb-4">
         <div class="col px-3 py-3 rounded shadow-sm bg-white">
-          <div class="row">
+          <div class="row" style="margin:0px 0 100px 0;">
             <div class="col-xl-6">
               <div class="display-5 text-center">Выберите период</div>
-              <div class="row">
-                <div class="col-xl-6">
+              <div class="row mt-3">
+                <div class="col-md-6">
                   <span class="fs-5">C</span>
                   <div class="stat-button stat-button-from">..........</div>
                 </div>
-                <div class="col-xl-6">
+                <div class="col-md-6">
                   <span class="fs-5">По</span>
                   <div class="stat-button stat-button-to">..........</div>
                 </div>
               </div>
               <div class="row">
-                <div class="col-6 mt-2">
-                  <div class="stat-button current-week">Текущая неделя</div>
+                <div class="col-12 col-md-6 mt-3">
                   <div class="stat-button last-week">Предыдущая неделя</div>
+                </div>
+                <div class="col-12 col-md-6 mt-3">
+                  <div class="stat-button current-week">Текущая неделя</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-md-6 mt-3">
+                  <div class="stat-button last-month">Предыдущий месяц</div>
+                </div>
+                <div class="col-12 col-md-6 mt-3">
+                  <div class="stat-button current-month">Текущий месяц</div>
                 </div>
               </div>
             </div>
@@ -36,8 +46,9 @@
               </div>
             </div>
           </div>
-          <div class="row" style="margin-top:100px;">
-            <div class="col-xl-6">
+          <hr>
+          <div class="row" style="margin:100px 0 400px 0;">
+            <div class="col-xl-12">
               <div class="fs-2 text-center">Выполненных задач за период</div>
               <div class="row">
                 <div class="col" style="height:300px;">
@@ -45,9 +56,8 @@
                 </div>
               </div>
             </div>
-            <div class="col-xl-6"></div>
           </div>
-          <div class="row" style="margin:100px 0 100px 0;">
+          {% comment %} <div class="row" style="margin:100px 0 100px 0;">
             <div class="col-xl-6"></div>
             <div class="col-xl-6">
               <div class="fs-2 text-center">Процент выполненных задач от запланированных</div>
@@ -57,7 +67,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> {% endcomment %}
         </div>
       </div>
     </div>
