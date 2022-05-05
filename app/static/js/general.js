@@ -51,8 +51,6 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 })
 
 
-$('.now-date').addClass('active')
-
 // Календарь на главной странице
 var monthpicker = new MaterialDatepicker('.date-picker-2', {
     lang: 'ru',
@@ -89,6 +87,16 @@ var monthpicker3 = new MaterialDatepicker('.stat-button-from', {
     onNewDate: function (date) {
         let data_from = moment(date).format("DD-MM-YYYY")
         $('.stat-button-from').html(data_from)
+        let data_to = $('.stat-button-to').text()
+        if (!valid_date(data_from) || !valid_date(data_to)) {
+            console.log('Dates not valid.')
+        } else {
+            let data = {
+                'date_from': data_from,
+                'date_to': data_to
+            }
+            getStatData(urlStat, data)
+        }
     }
 })
 var monthpicker4 = new MaterialDatepicker('.stat-button-to', {

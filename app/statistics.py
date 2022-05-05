@@ -19,9 +19,12 @@ logger = logging.getLogger(__name__)
 def index(request):
     now_date = datetime.today().strftime('%Y-%m-%d')
     current_user = request.user
-    count_a = 0
-    count_b = 0
-    count_c = 0
+    sum_task_with_priority_a = 0
+    sum_task_with_priority_b = 0
+    sum_task_with_priority_c = 0
+    sum_task_with_status_inwork = 0
+    sum_task_with_status_done = 0
+    sum_task_with_status_deleted = 0
 
 
     if request.method == 'POST':
@@ -39,17 +42,20 @@ def index(request):
             lists = List.objects.all().filter(date__gte=date_from, user__pk=current_user.pk).exclude(date__gt=date_to)
 
             for list_ in lists:
-                count_a += list_.task.all().filter(priority__priority='A').count()
-                count_b += list_.task.all().filter(priority__priority='B').count()
-                count_c += list_.task.all().filter(priority__priority='C').count()
-            print(f'{count_a}  - a')
-            print(f'{count_b}  - b')
-            print(f'{count_c}  - c')
+                sum_task_with_priority_a += list_.task.all().filter(priority__priority='A').count()
+                sum_task_with_priority_b += list_.task.all().filter(priority__priority='B').count()
+                sum_task_with_priority_c += list_.task.all().filter(priority__priority='C').count()
+                sum_task_with_status_inwork += list_.task.all().filter(status__status='В работе').count()
+                sum_task_with_status_done += list_.task.all().filter(status__status='Выполнена').count()
+                sum_task_with_status_deleted += list_.task.all().filter(status__status='Удалена').count()
             
             response_data = {
-                'count_a': count_a,
-                'count_b': count_b,
-                'count_c': count_c,
+                'sum_task_with_priority_a': sum_task_with_priority_a,
+                'sum_task_with_priority_b': sum_task_with_priority_b,
+                'sum_task_with_priority_c': sum_task_with_priority_c,
+                'sum_task_with_status_inwork': sum_task_with_status_inwork,
+                'sum_task_with_status_done': sum_task_with_status_done,
+                'sum_task_with_status_deleted': sum_task_with_status_deleted,
             }
 
             return JsonResponse(response_data)

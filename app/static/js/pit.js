@@ -1,3 +1,13 @@
+// добавляем класс при нажатии на фильтр
+var filter_list = document.querySelectorAll('.filters')
+filter_list.forEach(filter => {
+    filter.addEventListener('click', function() {
+        $('.filters').removeClass('active')
+        this.classList.add('active')
+    })
+})
+
+
 // проверка строк с задачами на чекнутость
 function checked_task(fields) {
     let idt = []

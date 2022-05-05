@@ -2,6 +2,8 @@ var all_fields = document.querySelectorAll('.remove_shadow_border')
 
 var idg = 0
 
+$('.now-date').addClass('active')
+
 // Строки для новой задачи
 function add_fields(p1, p2, p3) {
     button_add_fields = document.getElementById(`add_fields_${p1}`)

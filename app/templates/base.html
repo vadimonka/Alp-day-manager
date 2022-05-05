@@ -4,7 +4,7 @@
   <title>Альпака</title>
   <meta charset="utf-8">
   {% load static %}
-  <link type="shortcut icon" href="{% static 'fav/favicon.ico' %}" rel="icon">
+  <link rel="icon" href="{% static 'favicon.ico' %}">
   {% comment %} <link rel="stylesheet" href="{% static 'bootstrap-5.0.2-dist/css/bootstrap.css' %}"> {% endcomment %}
   <link rel="stylesheet" href="{% static 'bootstrap-5.0.2-dist/css/bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'material-datipecker/material-datepicker.css' %}">
@@ -14,15 +14,16 @@
   <script defer type="text/javascript" src={% static "jquery/jquery-3.6.0.js" %}></script>
   {% comment %} <script defer type="text/javascript" src={% static "/jquery/jquery-3.6.0.min.js" %}></script> {% endcomment %}
   <script defer type="text/javascript" src={% static "bootstrap-5.0.2-dist/js/bootstrap.bundle.js" %}></script>
-  {% comment %} <script defer type="text/javascript" src={% static "/bootstrap-5.0.2-dist/js/bootstrap.min.js" %}></script> {% endcomment %}
+  {% comment %} <script defer type="text/javascript" src={% static "/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js" %}></script> {% endcomment %}
   <script defer type="text/javascript" src={% static "material-datipecker/material-datepicker-with-moment-js.js" %}></script>
+  {% comment %} <script defer type="text/javascript" src={% static "material-datipecker/material-datepicker-with-moment-js.min.js" %}></script> {% endcomment %}
   <script defer type="text/javascript" src={% static "charts/dist/chart.js" %}></script>
+  {% comment %} <script defer type="text/javascript" src={% static "charts/dist/chart.min.js" %}></script> {% endcomment %}
 
   <script defer type="text/javascript" src={% static "js/general.js" %}></script>
   <script defer type="text/javascript" src={% static "js/index.js" %}></script>
   <script defer type="text/javascript" src={% static "js/pit.js" %}></script>
   <script defer type="text/javascript" src={% static "js/statistics.js" %}></script>
-  {% comment %} <script defer type="module" src={% static "js/index.js" %}></script> {% endcomment %}
   {% comment %} google fonts {% endcomment %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

@@ -4,6 +4,12 @@ const labels = [
     'C',
 ]
 
+const labels_priority = [
+    'В работе',
+    'Выполненные',
+    'Удаленные',
+]
+
 var labels_date = [
     '21.01.2022',
     '22.01.2022',
@@ -20,12 +26,26 @@ var data_1 = {
             'rgba(108, 117, 125, 0.7)'
         ],
         borderColor: 'rgb(250,250,250)',
-        data: [1, 2, 3],
+        data: [1, 1, 1],
         hoverOffset: 5
     }]
 }
 
 var data_2 = {
+    labels: labels_priority,
+    datasets: [{
+        backgroundColor: [
+            'rgba(181,138,165,0.7)',
+            'rgba(40,183,141,0.7)',
+            'rgba(68,68,68,0.7)'
+        ],
+        borderColor: 'rgb(250,250,250)',
+        data: [2, 3, 1],
+        hoverOffset: 5
+    }]
+}
+
+var data_3 = {
     labels: labels_date,
     datasets: [{
         label: '',
@@ -49,8 +69,17 @@ const config_1 = {
 }
 
 const config_2 = {
-    type: 'bar',
+    type: 'pie',
     data: data_2,
+    options: {  
+        responsive: true,
+        maintainAspectRatio: false
+    }
+}
+
+const config_3 = {
+    type: 'bar',
+    data: data_3,
     options: {  
         responsive: true,
         maintainAspectRatio: false
@@ -71,6 +100,13 @@ if (document.getElementById('graf_2')) {
     )
 }
 
+if (document.getElementById('graf_3')) {
+    var myChart_3 = new Chart(
+        document.getElementById('graf_3'),
+        config_3
+    )
+}
+
 
 $('.current-week').on('click', ()=>{
     // вычисляем количество дней до понедельника
@@ -79,6 +115,8 @@ $('.current-week').on('click', ()=>{
     let monday = moment().subtract(q1, 'days').format('DD-MM-YYYY')
     // вычисляем дату сегодня
     let nowday = moment().format('DD-MM-YYYY')
+
+    console.log(monday, nowday)
 
     let data = {
         'date_from': monday,
@@ -95,6 +133,8 @@ $('.last-week').on('click', ()=>{
     // вычисляем дату предыдущего воскресения
     let lastSunday = moment().subtract(q2-6, 'days').format('DD-MM-YYYY')
 
+    console.log(lastMonday, lastSunday)
+
     let data = {
         'date_from': lastMonday,
         'date_to': lastSunday
@@ -108,6 +148,8 @@ $('.current-month').on('click', ()=>{
     // дата сегодня
     let nowday = moment().format('DD-MM-YYYY')
 
+    console.log(begin_month, nowday)
+
     let data = {
         'date_from': begin_month,
         'date_to': nowday
@@ -120,6 +162,8 @@ $('.last-month').on('click', ()=>{
     let begin_month = moment().subtract(1, 'months').startOf('month').format('DD-MM-YYYY')
     // дата конца предыдущего месяца
     let end_month = moment().subtract(1, 'months').endOf('month').format('DD-MM-YYYY')
+
+    console.log(begin_month, end_month)
 
     let data = {
         'date_from': begin_month,
@@ -136,13 +180,34 @@ function getStatData(url, data) {
         .then(response => {return response.json()})
         .then(getBody => {
 
-            count_a = getBody['count_a']
-            count_b = getBody['count_b']
-            count_c = getBody['count_c']
+            sum_task_with_priority_a = getBody['sum_task_with_priority_a']
+            sum_task_with_priority_b = getBody['sum_task_with_priority_b']
+            sum_task_with_priority_c = getBody['sum_task_with_priority_c']
+
+            sum_task_with_status_inwork = getBody['sum_task_with_status_inwork']
+            sum_task_with_status_done = getBody['sum_task_with_status_done']
+            sum_task_with_status_deleted = getBody['sum_task_with_status_deleted']
+            sum_task_gen = sum_task_with_status_inwork + sum_task_with_status_done + sum_task_with_status_deleted
+            sum_task_gen_without_deleted = sum_task_with_status_inwork + sum_task_with_status_done
 
             myChart_1.data.datasets[0].data.length = 0
-            myChart_1.data.datasets[0].data.push(count_a, count_b, count_c)
+            myChart_1.data.datasets[0].data.push(sum_task_with_priority_a, sum_task_with_priority_b, sum_task_with_priority_c)
             myChart_1.update();
+
+            myChart_2.data.datasets[0].data.length = 0
+            myChart_2.data.datasets[0].data.push(sum_task_with_status_inwork, sum_task_with_status_done, sum_task_with_status_deleted)
+            myChart_2.update();
+            
+            $('.gen_tasks').text(sum_task_gen)
+            $('.deleted_tasks').text(sum_task_with_status_deleted)
+            $('.gen_tasks_without_del').text(sum_task_gen_without_deleted)
+            $('.sum_tasks').text(sum_task_with_status_done)
+            if (sum_task_gen_without_deleted) {
+                $('.perc_gen_tasks').text(Math.round(sum_task_with_status_done/sum_task_gen_without_deleted*100))
+            } else {
+                $('.perc_gen_tasks').text(0)
+            }
+            
 
         })
     } catch (error) {

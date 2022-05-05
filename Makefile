@@ -1,13 +1,12 @@
 start: run
+dev-i: venv-i venv pip-i migrate run
 
 # backend
-pip-install: 
+pip-i: 
 	pip install -r requirements.txt
 
-make-migrations:
-	python manage.py makemigrations
-
 migrate:
+	python manage.py makemigrations
 	python manage.py migrate
 
 run:
@@ -21,3 +20,9 @@ clean:
 	rm -rf app/static/dist
 	rm -rf .cache
 	rm -rf dist
+
+venv-i:
+	python -m venv env
+
+venv:
+	source env/bin/activate
