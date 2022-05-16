@@ -2,6 +2,7 @@
 // import './main-scripts.js'
 // import './scripts-for-pit.js'
 
+
 const url = ''
 const urlPit = '/pit'
 const urlStat = '/statistics'
@@ -115,6 +116,44 @@ var monthpicker4 = new MaterialDatepicker('.stat-button-to', {
                 'date_to': data_to
             }
             getStatData(urlStat, data)
+        }
+    }
+})
+var monthpicker5 = new MaterialDatepicker('.btn-pit-2', {
+    lang: 'ru',
+    weekBegin: 'monday',
+    orientation: 'portrait',
+    onNewDate: function (date) {
+        let data_from = moment(date).format("DD-MM-YYYY")
+        $('.btn-pit-1').html(data_from)
+        let data_to = $('.btn-pit-3').text()
+        if (!valid_date(data_to) || !valid_date(data_from)) {
+            console.log('Dates not valid.')
+        } else {
+            let data = {
+                'date_from': data_from,
+                'date_to': data_to
+            }
+            postDataPit(urlPit, data)
+        }
+    }
+})
+var monthpicker6 = new MaterialDatepicker('.btn-pit-4', {
+    lang: 'ru',
+    weekBegin: 'monday',
+    orientation: 'portrait',
+    onNewDate: function (date) {
+        let data_to = moment(date).format("DD-MM-YYYY")
+        $('.btn-pit-3').html(data_to)
+        let data_from = $('.btn-pit-1').text()
+        if (!valid_date(data_to) || !valid_date(data_from)) {
+            console.log('Dates not valid.')
+        } else {
+            let data = {
+                'date_from': data_from,
+                'date_to': data_to
+            }
+            postDataPit(urlPit, data)
         }
     }
 })

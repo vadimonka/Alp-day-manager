@@ -144,7 +144,6 @@ def index(request):
                 "percent_c": percent_part(task_gen, task_c),
             }
 
-            # if post_data:
             response_data.update(data)
 
         return JsonResponse(response_data)

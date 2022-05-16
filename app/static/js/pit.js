@@ -1,11 +1,3 @@
-// добавляем класс при нажатии на фильтр
-var filter_list = document.querySelectorAll('.filters')
-filter_list.forEach(filter => {
-    filter.addEventListener('click', function() {
-        $('.filters').removeClass('active')
-        this.classList.add('active')
-    })
-})
 
 
 // проверка строк с задачами на чекнутость
@@ -70,6 +62,33 @@ async function postDataPit(url, data) {
                 data["task_list"].forEach(task => {
                     document.getElementById(`row_${task}`).remove()
                 })
+            } else if (data["date_from"] && data["date_to"]) {
+                if (document.querySelector('.table-pit-content')) {
+                    document.querySelector('.table-pit-content').innerText = ''
+                    for (let i=1; i<=Object.keys(resBody).length; i++) {
+                        taskList = JSON.parse(resBody[`data${i}`]["tasks"])
+                        for (task of taskList) {
+                            document.querySelector('.table-pit-content').insertAdjacentHTML('afterbegin',`
+                                <tr id="row_${task.pk}">
+                                <td>
+                                    <div class="input-group">
+                                    <div class="input-group-text">
+                                        <input class="form-check-input" type="checkbox" value="" id="check_${task.pk}">
+                                    </div>
+                                    <textarea class="form-control other_shadow_border" id="content_${task.pk}" rows="1"
+                                        placeholder="Задача.." required>${task.fields.content}</textarea>
+                                    </div>
+                                </td>
+                                </tr>`)
+                        }
+                        document.querySelector('.table-pit-content').insertAdjacentHTML('afterbegin',`
+                            <tr>
+                                <th scope="row">
+                                    ${moment(resBody[`data${i}`]["date"]).format('DD MMMM YYYY')}
+                                </th>
+                            </tr>`)
+                    }
+                }
             } else {
                 show_toast_ex('Упс, что-то пошло не по плану..')
             }

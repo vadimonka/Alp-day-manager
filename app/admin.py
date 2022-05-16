@@ -8,7 +8,8 @@ admin.site.register(MarkTask)
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
     list_display = ('content', 'time', 'priority', 'status', 'pk')
-
+    list_filter = ('status', 'priority')
+    
 
 class UserAdmin(UserAdmin):
     add_form = UserCreationForm

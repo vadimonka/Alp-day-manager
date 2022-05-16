@@ -298,7 +298,7 @@ function getData(url, data) {
                 }
 
                 function drawing_get_tasks(data, form_change_el, letter) {
-                    for (i=0; i < data.length; i++) {
+                    for (let i=0; i < data.length; i++) {
                         if (data[i]["fields"]["status"] == 1) {
                             xstrike = ''
                         } else if (data[i]["fields"]["status"] == 2) {
