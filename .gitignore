@@ -8,6 +8,7 @@
 /app/__pycache__
 /app/migrations
 /app/debug/debug.log
+/staticfiles
 
 db.sqlite3
 secret_key.txt

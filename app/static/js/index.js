@@ -224,6 +224,9 @@ for (let i=0; i < date_list.length; i++) {
         $('.date-picker-date').removeClass('active')
         $('.date-after').removeClass('active')
         this.classList.add('active')
+        $('#hidden_fields_a').addClass('hidden')
+        $('#hidden_fields_b').addClass('hidden')
+        $('#hidden_fields_c').addClass('hidden')
 
         let data = this.innerText
 
