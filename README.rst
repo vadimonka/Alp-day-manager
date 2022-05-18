@@ -16,7 +16,7 @@
 4. Установить зависимости pip install -r requirements.txt
 5. Можно запускать
 
-**Перед деплоем собрать всю статику через collectstatic
+*Перед деплоем собрать всю статику через collectstatic*
 
 
 Инструкции по деплою
@@ -51,7 +51,7 @@ server {
 в каталоге /etc/systemd/system
 создать 2 файла gunicorn.socket, gunicorn.service
 
-*содержимое gunicorn.service
+**содержимое gunicorn.service**
 
 [Unit]
 Description=gunicorn daemon
@@ -72,7 +72,7 @@ ExecStart=/var/www/alp_django/env/bin/gunicorn \
 WantedBy=multi-user.target
 
 
-*содержимое gunicorn.socket
+**содержимое gunicorn.socket**
 
 [Unit]
 Description=gunicorn socket
