@@ -36,15 +36,9 @@ server {
     location /staticfiles/ {
         root /var/www/alp_django/staticfiles;           #путь до static каталога
     }
-
     location /media/ {
-<<<<<<< HEAD
         root /var/www/alp_django/app/;           #путь до media каталога
-=======
-        root /var/www/alp_django/app/media;           #путь до media каталога
->>>>>>> projectremote/dev
     }
-
     location / {
         include proxy_params;
         proxy_pass http://unix:/run/gunicorn.sock;
@@ -85,8 +79,4 @@ Description=gunicorn socket
 ListenStream=/run/gunicorn.sock
 
 [Install]
-<<<<<<< HEAD
 WantedBy=sockets.target
-=======
-WantedBy=sockets.target
->>>>>>> projectremote/dev
