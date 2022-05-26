@@ -1,0 +1,15 @@
+/.vscode
+/.cache
+/env
+/node_modules
+/dist
+
+/alp/__pycache__
+/app/__pycache__
+/app/migrations
+/app/debug/debug.log
+/staticfiles
+
+db.sqlite3
+secret_key.txt
+package-lock.json

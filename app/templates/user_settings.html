@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-xl-6">
+    <div class="row">
+      <div class="mt-4 mb-4">
+        <div class="col px-3 py-3 rounded shadow-sm bg-white">
+          <div class="row" style="margin:0 0 50px 0;">
+            <div class="fs-3 text-left">Пользовательские настройки</div><br><br><br>
+            <span class="fs-5 mx-1">Длительность рабочего дня:</span>
+            <div class="mx-3">
+              <div class="form-check">
+                <input class="form-check-input flexRadioDefault" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
+                  {%if work_time == 480%}{{checked}}{%endif%}>
+                <label class="form-check-label" for="flexRadioDefault1">
+                  480
+                </label>
+                <label>мин (8ч)</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input flexRadioDefault" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                  {%if work_time == 720%}{{checked}}{%endif%}>
+                <label class="form-check-label" for="flexRadioDefault2">
+                  720
+                </label>
+                <label>мин (12ч)</label>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="row" style="margin:0 0 50px 0;">
+            <span class="fs-5 mx-1 text-secondary">Справочная информация</span>
+            <div class="intro"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-12 col-xl-8">
+    <div class="row">
+      <div class="mt-4 mb-4">
+        <div class="col px-3 py-3 rounded shadow-sm bg-white">
+          <!-- фильтры задач start -->
+          <div class="row py-4">
+            <div class="col text-center">
+              <span class="fs-4">Фильтр задач </span>
+              <div class="btn-group btn-pit-group" role="group">
+                <span class="btn-pit-1">Начальная дата..</span>
+                <span class="btn-pit-2"></span>
+              </div>
+              -
+              <div class="btn-group btn-pit-group" role="group">
+                <span class="btn-pit-3">Конечная дата..</span>
+                <span class="btn-pit-4"></span>
+              </div>
+            </div>
+          </div>
+          <!-- фильтры задач end -->
+          <hr>
+          <table class="table table-borderless table-hover table-pit-content">
+            {% for key,value in response_data.items %}
+              {% for key,value in value.items %}
+                {% if not forloop.last %}
+                  <tr>
+                    <th scope="row">
+                      {{ value }}
+                    </th>
+                  </tr>
+                {% else %}
+                  {% for task in value %}
+                    <tr id="row_{{task.pk}}">
+                      <td>
+                        <div class="input-group">
+                          <div class="input-group-text">
+                            <input class="form-check-input" type="checkbox" value="" id="check_{{ task.pk }}">
+                          </div>
+                          <textarea class="form-control other_shadow_border" id="content_{{ task.pk }}" rows="1"
+                            placeholder="Задача.." required>{{ task.content }}</textarea>
+                        </div>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-xl-4 order-xl-last order-first">
+    <div class="row mt-4 rounded shadow-sm bg-white panel" style="position:sticky; top:20px;">
+      <div class="col px-3 py-3">
+        <!-- перенос задач на дату start -->
+        <div class="row">
+          <div class="col">
+            <span class="fs-5">Перенести на:</span>
+            <div class="btn-group" role="group">
+              <div class="pit-button date">
+                {{ now_date }}
+              </div>
+              <div class="pit-button-2 date">Другая дата➤</div>
+            </div>
+          </div>
+        </div>
+        <button class="floating-button throw-over">Перенести</button>
+        <!-- перенос задач на дату end -->
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

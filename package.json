@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "chart.js": "^3.7.1",
+    "webpack": "^5.72.0",
+    "webpack-dev-server": "^4.8.1"
+  }
+}

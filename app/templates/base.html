@@ -1,0 +1,131 @@
+<html>
+<head>
+  {% csrf_token %}
+  <title>Альпака</title>
+  <meta charset="utf-8">
+  {% load static %}
+  <link rel="icon" href="{% static 'favicon.ico' %}">
+  {% comment %} <link rel="stylesheet" href="{% static 'bootstrap-5.0.2-dist/css/bootstrap.css' %}"> {% endcomment %}
+  <link rel="stylesheet" href="{% static 'bootstrap-5.0.2-dist/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'material-datipecker/material-datepicker.css' %}">
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+  <script defer type="text/javascript" src={% static "jquery/jquery-3.6.0.js" %}></script>
+  {% comment %} <script defer type="text/javascript" src={% static "/jquery/jquery-3.6.0.min.js" %}></script> {% endcomment %}
+  <script defer type="text/javascript" src={% static "bootstrap-5.0.2-dist/js/bootstrap.bundle.js" %}></script>
+  {% comment %} <script defer type="text/javascript" src={% static "/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js" %}></script> {% endcomment %}
+  <script defer type="text/javascript" src={% static "material-datipecker/material-datepicker-with-moment-js.js" %}></script>
+  {% comment %} <script defer type="text/javascript" src={% static "material-datipecker/material-datepicker-with-moment-js.min.js" %}></script> {% endcomment %}
+  <script defer type="text/javascript" src={% static "charts/dist/chart.js" %}></script>
+  {% comment %} <script defer type="text/javascript" src={% static "charts/dist/chart.min.js" %}></script> {% endcomment %}
+
+  <script defer type="text/javascript" src={% static "js/general.js" %}></script>
+  <script defer type="text/javascript" src={% static "js/user_settings.js" %}></script>
+  <script defer type="text/javascript" src={% static "js/index.js" %}></script>
+  <script defer type="text/javascript" src={% static "js/pit.js" %}></script>
+  <script defer type="text/javascript" src={% static "js/statistics.js" %}></script>
+  {% comment %} google fonts {% endcomment %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-content">
+  <div class="container-fluid" id="main-container">
+    <div class="row">
+
+        {% block sidebar %}
+          <nav class="navbar navbar-expand-lg navbar-light bg-sidebar">
+            <div class="container-fluid">
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item font-gothic">
+                    <a class="navbar-brand link {% if request.path == '/' %}active_link{% endif %}" href="{% url 'index' %}">Планирование дня</a>
+                  </li>
+                  <li class="nav-item font-gothic">
+                    <a class="navbar-brand link {% if request.path == '/pit' %}active_link{% endif %}" href="{% url 'pit' %}">Перенос задач</a>
+                  </li>
+                  <li class="nav-item font-gothic">
+                    <a class="navbar-brand link {% if request.path == '/statistics' %}active_link{% endif %}" href="{% url 'statistics' %}">Статистика</a>
+                  </li>
+                </ul>
+              </div>
+              <span class="d-flex">
+                {% if user.is_authenticated %}
+                  <span class="nav-item dropdown">
+                    <a class="nav-link text-dark dropdown-toggle underline_royal" href="#" id="navbarDropdown" role="button"
+                      data-bs-toggle="dropdown" aria-expanded="false">
+                      {{ user.get_username }}
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      {% comment %} <li><hr class="dropdown-divider"></li> {% endcomment %}
+                      <li><a class="dropdown-item text-dark" href="{% url 'user_settings' %}">Настройки</a>
+                        <li><hr>
+                      <li class="text-right"><a class="dropdown-item text-danger" href="{% url 'logout' %}?next={% url 'login' %}">Выйти</a>
+                    </ul>
+                  </span>
+                {% else %}
+                  <a href="{% url 'login' %}" class="text-dark">Войти</a>
+                {% endif %}
+              </span>
+            </div>
+          </nav>
+        {% endblock %}
+      
+      <div class="col-12 col-md-12 bg-content">
+        {% block content %}
+        {% endblock %}
+      </div>
+    </div>
+  </div>
+
+  {% comment %} preloader {% endcomment %}
+  <div id="hellopreloader_preload" style="background: rgb(245, 245, 245);"></div>
+
+  <!-- Modal -->
+  <div class="modal" id="delete_modal" tabindex="-1" aria-labelledby="delete_modal_label" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="delete_modal_label">Подтвердите удаление</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Для удаления не выбрано ни одной задачи!
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+          <button type="button" id="delete_task" class="btn bg-royal" disabled>Удалить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1;">
+    <div id="liveToast" class="toast fade hide panel" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <svg xmlns="http://www.w3.org/2000/svg" class="rounded" width="14px" height="14px" viewBox="0 0 24 24"
+          stroke="#fba2b0" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter" fill="#fba2b0" color="#fba2b0"
+          data-bs-dismiss="toast" aria-label="Закрыть">
+          <circle cx="12" cy="12" r="10" />
+          <strong class="me-auto text-center fs-6">&nbsp;Уведомление</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Закрыть">
+        </svg>
+      </div>
+      <div class="toast-body text-center fs-6"
+        style="background-image: url(media/alpaka_circle.gif); background-size: cover; min-height:18vh;">
+      <div class="toast-body text-center fs-6">
+        Пустое сообщение!
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
