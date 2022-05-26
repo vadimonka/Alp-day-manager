@@ -21,7 +21,10 @@
   {% comment %} <script defer type="text/javascript" src={% static "charts/dist/chart.min.js" %}></script> {% endcomment %}
 
   <script defer type="text/javascript" src={% static "js/general.js" %}></script>
+<<<<<<< HEAD
   <script defer type="text/javascript" src={% static "js/user_settings.js" %}></script>
+=======
+>>>>>>> projectremote/dev
   <script defer type="text/javascript" src={% static "js/index.js" %}></script>
   <script defer type="text/javascript" src={% static "js/pit.js" %}></script>
   <script defer type="text/javascript" src={% static "js/statistics.js" %}></script>
@@ -61,6 +64,7 @@
                   <span class="nav-item dropdown">
                     <a class="nav-link text-dark dropdown-toggle underline_royal" href="#" id="navbarDropdown" role="button"
                       data-bs-toggle="dropdown" aria-expanded="false">
+<<<<<<< HEAD
                       {{ user.get_username }}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -68,6 +72,13 @@
                       <li><a class="dropdown-item text-dark" href="{% url 'user_settings' %}">Настройки</a>
                         <li><hr>
                       <li class="text-right"><a class="dropdown-item text-danger" href="{% url 'logout' %}?next={% url 'login' %}">Выйти</a>
+=======
+                    {{ user.get_username }}
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      {% comment %} <li><hr class="dropdown-divider"></li> {% endcomment %}
+                      <li><a class="dropdown-item" href="{% url 'logout' %}?next={% url 'login'%}" class="text-dark">Выйти</a>
+>>>>>>> projectremote/dev
                     </ul>
                   </span>
                 {% else %}

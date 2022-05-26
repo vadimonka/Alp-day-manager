@@ -173,6 +173,7 @@ $('.last-month').on('click', ()=>{
 })
 
 
+<<<<<<< HEAD
 // // Экспорт ячеек таблицы в CSV
 // const toCsv = function(table) {
 //     const rows = table.querySelectorAll('tr');
@@ -236,6 +237,8 @@ $(document).on("click", ".print_tasks", function () {
     link.click()
 })
 
+=======
+>>>>>>> projectremote/dev
 // GET запрос на получение данных для статистики
 function getStatData(url, data) {
     try {
@@ -271,6 +274,7 @@ function getStatData(url, data) {
                 $('.perc_gen_tasks').text(0)
             }
             
+<<<<<<< HEAD
             document.querySelector('.print_tasks_of_period').innerText = ''
             for (let i=1; i<=Object.keys(getBody["data"]).length; i++) {
                 taskList = JSON.parse(getBody["data"][`data${i}`]["tasks"])
@@ -306,6 +310,8 @@ function getStatData(url, data) {
                     </tr>`)
             }
             document.querySelector('.print_tasks').hidden = false
+=======
+>>>>>>> projectremote/dev
 
         })
     } catch (error) {

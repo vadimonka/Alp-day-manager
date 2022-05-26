@@ -1,12 +1,19 @@
 from pathlib import Path
 import os
+<<<<<<< HEAD
 import ldap
 from django_auth_ldap.config import LDAPSearch, GroupOfNamesType, ActiveDirectoryGroupType
 
+=======
+>>>>>>> projectremote/dev
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> projectremote/dev
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -19,6 +26,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> projectremote/dev
 # Application definition
 
 INSTALLED_APPS = [
@@ -114,7 +125,11 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
+<<<<<<< HEAD
 MEDIA_ROOT = os.path.join(BASE_DIR, '/media/')
+=======
+MEDIA_ROOT = os.path.join(BASE_DIR, 'app/media/')
+>>>>>>> projectremote/dev
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

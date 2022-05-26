@@ -38,7 +38,11 @@ server {
     }
 
     location /media/ {
+<<<<<<< HEAD
         root /var/www/alp_django/app/;           #путь до media каталога
+=======
+        root /var/www/alp_django/app/media;           #путь до media каталога
+>>>>>>> projectremote/dev
     }
 
     location / {
@@ -81,4 +85,8 @@ Description=gunicorn socket
 ListenStream=/run/gunicorn.sock
 
 [Install]
+<<<<<<< HEAD
 WantedBy=sockets.target
+=======
+WantedBy=sockets.target
+>>>>>>> projectremote/dev

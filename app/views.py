@@ -17,6 +17,10 @@ logger = logging.getLogger(__name__)
 
 @login_required()
 def index(request):
+<<<<<<< HEAD
+=======
+    work_time = 480
+>>>>>>> projectremote/dev
     now_date = datetime.today().strftime('%Y-%m-%d')
     yesterday_date_list = [(datetime.today() - timedelta(i)).strftime('%d-%m-%Y') for i in range(1,4)]
     in_work_status_obj = Status.objects.get(status='В работе')
@@ -31,12 +35,20 @@ def index(request):
         task_b = task_gen.filter(priority__priority='B')
         task_c = task_gen.filter(priority__priority='C')
         sum_time_task = sum_time(task_gen)
+<<<<<<< HEAD
         work_time = UserSettings.objects.get(user__pk=current_user.pk).workday_time
         free_time = f_time(work_time, sum_time_task)
         over_time = o_time(work_time, sum_time_task)
 
     except (List.DoesNotExist, UserSettings.DoesNotExist):
         list_today = List(date=datetime.today().strftime('%Y-%m-%d'))
+=======
+        free_time = f_time(work_time, sum_time_task)
+        over_time = o_time(work_time, sum_time_task)
+
+    except List.DoesNotExist:
+        list_today = List()
+>>>>>>> projectremote/dev
         list_today.user = User.objects.get(pk=current_user.pk)
         list_today.save()
         task_gen = None
@@ -48,12 +60,15 @@ def index(request):
         over_time = 0
         print('Список задач на сегодня не найден. Создаем новый пустой список..')
         logger.info(f"{request.user} - Список задач на сегодня не найден, создаем новый пустой список.")
+<<<<<<< HEAD
 
         user_set = UserSettings(workday_time=480)
         user_set.user = User.objects.get(pk=current_user.pk)
         user_set.save()
         work_time = UserSettings.objects.get(user__pk=current_user.pk).workday_time
         
+=======
+>>>>>>> projectremote/dev
     except:
         logger.error(f"{request.user} - uncaught exception: %s", traceback.format_exc())
 

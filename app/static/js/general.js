@@ -6,7 +6,10 @@
 const url = ''
 const urlPit = '/pit'
 const urlStat = '/statistics'
+<<<<<<< HEAD
 const urlUserSettings = '/user_settings'
+=======
+>>>>>>> projectremote/dev
 const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
 
 

@@ -36,10 +36,13 @@ admin.site.register(User, UserAdmin)
 class ListAdmin(admin.ModelAdmin):
     list_display = ('date', 'user')
 
+<<<<<<< HEAD
 @admin.register(UserSettings)
 class UserSettingsAdmin(admin.ModelAdmin):
     list_display = ('workday_time', 'user')
 
+=======
+>>>>>>> projectremote/dev
 
 @admin.register(Status)
 class StatusAdmin(admin.ModelAdmin):

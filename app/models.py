@@ -54,6 +54,7 @@ class User(AbstractUser):
         return self.email
 
 
+<<<<<<< HEAD
 class UserSettings(models.Model):
     workday_time = models.IntegerField(help_text="Длительность рабочего дня")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
@@ -62,6 +63,8 @@ class UserSettings(models.Model):
         return str(self.workday_time)
 
 
+=======
+>>>>>>> projectremote/dev
 class List(models.Model):
     date = models.DateField(default=datetime.today().strftime('%Y-%m-%d'))
     task = models.ManyToManyField('Task', help_text="Задачи на день")

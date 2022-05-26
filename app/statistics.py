@@ -25,12 +25,16 @@ def index(request):
     sum_task_with_status_inwork = 0
     sum_task_with_status_done = 0
     sum_task_with_status_deleted = 0
+<<<<<<< HEAD
     i = 0
     data = {}
     tasks = []
     response_data = {
         "data": {}
     }
+=======
+
+>>>>>>> projectremote/dev
 
     if request.method == 'POST':
         pass
@@ -53,6 +57,7 @@ def index(request):
                 sum_task_with_status_inwork += list_.task.all().filter(status__status='В работе').count()
                 sum_task_with_status_done += list_.task.all().filter(status__status='Выполнена').count()
                 sum_task_with_status_deleted += list_.task.all().filter(status__status='Удалена').count()
+<<<<<<< HEAD
                 
                 tasks = []
                 if len(list_.task.all()) != 0:
@@ -69,6 +74,10 @@ def index(request):
                 response_data["data"].update(data)
 
             graf_data = {
+=======
+            
+            response_data = {
+>>>>>>> projectremote/dev
                 'sum_task_with_priority_a': sum_task_with_priority_a,
                 'sum_task_with_priority_b': sum_task_with_priority_b,
                 'sum_task_with_priority_c': sum_task_with_priority_c,
@@ -77,6 +86,7 @@ def index(request):
                 'sum_task_with_status_deleted': sum_task_with_status_deleted,
             }
 
+<<<<<<< HEAD
             response_data.update(graf_data)
 
             return JsonResponse(response_data)
@@ -89,3 +99,13 @@ def index(request):
                 context={
                 }
             )
+=======
+            return JsonResponse(response_data)
+
+        return render (
+            request, 
+            'statistics.html',
+            context={
+            }
+        )
+>>>>>>> projectremote/dev
