@@ -47,7 +47,7 @@ server {
 
 
 в каталоге /etc/systemd/system
-создать 2 файла gunicorn.socket, gunicorn.service
+создать файлы gunicorn.socket, gunicorn.service
 
 **содержимое gunicorn.service**
 
