@@ -34,14 +34,14 @@ server {
 
     #location = /favicon.ico { access_log off; log_not_found off; }
     location /staticfiles/ {
-      root /var/www/alp_django/staticfiles;           #путь до static каталога
+        root /var/www/alp_django/staticfiles;           #путь до static каталога
     }
     location /media/ {
-      root /var/www/alp_django/app/;           #путь до media каталога
+        root /var/www/alp_django/app/;           #путь до media каталога
     }
     location / {
-      include proxy_params;
-      proxy_pass http://unix:/run/gunicorn.sock;
+        include proxy_params;
+        proxy_pass http://unix:/run/gunicorn.sock;
     }
 }
 
